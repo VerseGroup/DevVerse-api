@@ -23,7 +23,6 @@ class Task():
         self.completed = completed
         self.description = description
         self.user_id = user_id
-        
     
     def serialize(self):
         return {

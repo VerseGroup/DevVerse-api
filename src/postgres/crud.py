@@ -1,7 +1,9 @@
-import os
-import psycopg2
-from dotenv import load_dotenv
 from src.postgres.models import *
+from dotenv import load_dotenv
+import psycopg2
+import os
+
+
 
 load_dotenv()
 
@@ -73,9 +75,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-
-
-    #generate a user
     def create_user(self, user: User):
         try:
             insert_user_query = """
@@ -90,7 +89,6 @@ class Backend_Interface:
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
-    #generate a task
     def create_task(self, task: Task):
         try:
             """
@@ -108,8 +106,6 @@ class Backend_Interface:
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
-
-    #generate a TodoList
     def create_todo_list(self, todo_list: TodoList):
         try:
             """
@@ -127,7 +123,6 @@ class Backend_Interface:
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
-    #update user 
     def update_user(self, user: User):
         """
         This function updates a user in the database.
@@ -143,7 +138,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    #update tasks
     def update_task(self, task: Task):
         """
         This function updates a task in the database.
@@ -159,7 +153,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    #update todo list
     def update_todo_list(self, todo_list: TodoList):
         """
         This function updates a todo list in the database.
@@ -175,7 +168,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    #fetch user by username
     def fetch_user_by_username(self, username: str):
         """
         This function fetches a user by username from the database.
@@ -189,8 +181,7 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
         return user[0]
-    
-    #fetch user id by username
+
     def fetch_user_id_by_username(self, username: str):
         """
         This function fetches a user id by username from the database.
@@ -205,8 +196,7 @@ class Backend_Interface:
         self.conn.close()
         user_id = user_id[0]
         return user_id
-    
-    #fetch TodoList by user id
+
     def fetch_todo_list_by_user_id(self, user_id: int):
         """
         This function fetches a todo list by user id from the database.
@@ -221,7 +211,6 @@ class Backend_Interface:
         self.conn.close()
         return todo_list
 
-    #fetch task by todo list ids
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):
         """
         This function fetches a task by todo list id from the database.
@@ -236,5 +225,3 @@ class Backend_Interface:
         self.conn.close()
         return list(task)
     
-
-

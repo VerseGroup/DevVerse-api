@@ -12,10 +12,14 @@ from fastapi import FastAPI, Request
 from src.relay.relay import relay
 
 #postgres server
+from src.postgres.models import User, Task, TodoList
 from src.postgres.crud import Backend_Interface
+
+
 
 # startup
 app = FastAPI()
+interface = Backend_Interface()
 
 ####### ROUTES [GENERAL] #######
 
@@ -48,4 +52,5 @@ async def scrape_(request: OauthPostRequest):
 async def webhook(request: Request):
     json = request.json
     
-    
+
+

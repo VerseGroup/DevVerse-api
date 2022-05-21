@@ -52,5 +52,10 @@ async def scrape_(request: OauthPostRequest):
 async def webhook(request: Request):
     json = request.json
     
-
+@app.post("/addUser", status_code=200)
+async def addUser(request: AddUserRequest):
+    # add user to database
+    user = User(request.username, request.email, request.password, request.phone, request.display_name, request.github_oauth_token)
+    interface.create_user(user)
+    return {"message": "user added"}
 

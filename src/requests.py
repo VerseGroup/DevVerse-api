@@ -6,7 +6,7 @@ class OauthPostRequest(BaseModel):
     code: str
     redirect_uri: str
 
-class Scrape(BaseModel):
+class RelayRequest(BaseModel):
     endpoint: str
     data: str
     method: str

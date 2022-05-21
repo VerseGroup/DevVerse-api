@@ -7,10 +7,11 @@ from src.requests import *
 # external imports 
 from fastapi import FastAPI
 
+# internal imports
+from src.relay.relay import relay
 
 #postgres server
 from src.postgres.crud import Backend_Interface
-
 
 # startup
 app = FastAPI()
@@ -21,9 +22,15 @@ app = FastAPI()
 async def ping():
     return {"message": "pong"} 
 
-@app.get("/home", status_code=200)
-async def home():
-    return "home"
+####### ROUTES [MAIN] #######
+
+@app.post("/relay", status_code=200)
+async def _relay(request: RelayRequest):
+    try:
+        relay(request)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": str(e)}
 
 @app.post("/adduser", status_code=200)
 async def adduser(request: AddUserRequest):

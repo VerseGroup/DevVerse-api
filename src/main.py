@@ -1,12 +1,10 @@
 # python imports
-import os
-from urllib import request
-import uuid
-from src.requests import *
-import json
-
-# external imports 
 from fastapi import FastAPI, Request
+from urllib import request
+from src.requests import *
+import uuid
+import json
+import os
 
 # internal imports
 from src.relay.relay import relay
@@ -22,13 +20,17 @@ from src.postgres.crud import Backend_Interface
 app = FastAPI()
 interface = Backend_Interface()
 
-####### ROUTES [GENERAL] #######
+
+####### ROUTES [Basic] #######
+
 
 @app.get("/ping", status_code=200)
 async def ping():
     return {"message": "pong"} 
 
+
 ####### ROUTES [MAIN] #######
+
 
 @app.post("/relay", status_code=200)
 async def _relay(request: RelayRequest):
@@ -43,7 +45,7 @@ async def adduser(request: AddUserRequest):
     # add user to database
     return {"message": "user added"}
  
-# post github data
+# post github data (testing)
 @app.post("/data", status_code=200)
 async def scrape_(request: OauthPostRequest):
     return request

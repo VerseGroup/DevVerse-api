@@ -20,5 +20,5 @@ async def ping():
     return {"message": "pong"} 
 
 @app.get("/home", status_code=200)
-async def ping():
-    return {"message": "home"}
+async def home():
+    return "home"

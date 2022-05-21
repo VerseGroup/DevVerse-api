@@ -30,8 +30,6 @@ async def adduser(request: AddUserRequest):
     # add user to database
     return {"message": "user added"}
  
-
-
 # post github data
 @app.post("/data", status_code=200)
 async def scrape_(request: OauthPostRequest):

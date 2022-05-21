@@ -9,7 +9,7 @@ import os
 # internal imports
 from src.relay.relay import relay
 from src.phone_numbers import NUMBERS
-from src.twilio import sendMessage
+from src.twilio_client import sendMessage
 from src.parse_webhook import parse_check_run
 
 #postgres server

@@ -8,6 +8,9 @@ import os
 
 # internal imports
 from src.relay.relay import relay
+from src.phone_numbers import NUMBERS
+from src.twilio import sendMessage
+from src.parse_webhook import parse_check_run
 
 #postgres server
 from src.postgres.models import User, Task, TodoList
@@ -50,8 +53,19 @@ async def scrape_(request: OauthPostRequest):
 # recieve data from github
 @app.post("/webhook", status_code=200)
 async def webhook(request: Request):
-    json = request.json
     
+    json = request.json()
+
+    # univeral data
+    repo = json['repository']['name']
+    
+    if 'check_suite' in json:
+        body = parse_check_run(json)
+
+    if body is not None:        
+        for number in NUMBERS:
+            sendMessage(body, number)
+
 @app.post("/addUser", status_code=200)
 async def addUser(request: AddUserRequest):
     # add user to database

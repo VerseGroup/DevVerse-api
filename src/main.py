@@ -3,9 +3,10 @@ import os
 from urllib import request
 import uuid
 from src.requests import *
+import json
 
 # external imports 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 # internal imports
 from src.relay.relay import relay
@@ -42,5 +43,9 @@ async def adduser(request: AddUserRequest):
 async def scrape_(request: OauthPostRequest):
     return request
 
-
+# recieve data from github
+@app.post("/webhook", status_code=200)
+async def webhook(request: Request):
+    json = request.json
+    
     

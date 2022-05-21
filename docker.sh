@@ -1,3 +1,4 @@
-echo "building and running service..."
+echo "Building server..."
 docker-compose build
+echo "Starting server..."
 docker-compose up

@@ -31,3 +31,9 @@ async def home():
 @app.post("/data", status_code=200)
 async def scrape_(request: OauthPostRequest):
     return request
+
+# get login
+@app.get("/login", status_code=200)
+async def login():
+    return "login"
+    

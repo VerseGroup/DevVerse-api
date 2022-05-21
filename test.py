@@ -1,7 +1,7 @@
-import requests
+import base_models
 
 
-site_session = requests.Session()
+site_session = base_models.Session()
 url = "https://github.com/login/oauth/authorize"
 data = {
     "client_id": "0dbbdc9a9550b94c98c2"

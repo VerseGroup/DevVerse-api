@@ -13,5 +13,6 @@ def sendMessage(body, number):
     client = Client(SID, TOKEN)
     client.messages.create(to=number, from_=PHONE_NUMBER, body=body, messaging_service_sid=APP_SID)
 
-
+if __name__ == "__main__":
+    sendMessage("Hello from twilio", PHONE_NUMBER)
     

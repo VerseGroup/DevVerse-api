@@ -1,5 +1,5 @@
 # imports
-import requests
+import base_models
 
 # utils
 from src.relay.utils import get_url
@@ -10,9 +10,9 @@ def relay(relay_request):
     method = relay_request.method
 
     if method == "GET":
-        resp = requests.get(url, json=data)
+        resp = base_models.get(url, json=data)
     elif method == "POST":
-        resp = requests.post(url, json=data)
+        resp = base_models.post(url, json=data)
 
     return resp.content.decode("utf-8")
 

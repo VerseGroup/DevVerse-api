@@ -1,7 +1,7 @@
 # python imports
 from fastapi import FastAPI, Request
 from urllib import request
-from base_models import *
+from src.base_models import *
 import uuid
 import json
 import os

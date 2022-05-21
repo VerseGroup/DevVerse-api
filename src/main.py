@@ -27,10 +27,10 @@ async def ping():
 @app.post("/relay", status_code=200)
 async def _relay(request: RelayRequest):
     try:
-        relay(request)
-        return {"message": "success"}
+        response = relay(request)
+        return {"message": "success", "response": response}
     except Exception as e:
-        return {"message": str(e)}
+        return {"message": "error", "exception" : str(e)}
 
 @app.post("/adduser", status_code=200)
 async def adduser(request: AddUserRequest):

@@ -4,7 +4,7 @@ import uuid
 
 # external imports 
 from fastapi import FastAPI
-from pydantic import BaseModel
+
 
 #postgres server
 from postgres.crud import Backend_Interface

@@ -54,13 +54,13 @@ async def scrape_(request: OauthPostRequest):
 @app.post("/webhook", status_code=200)
 async def webhook(request: Request):
     
-    json = request.body
+    _json = json.load(request.json())
 
     # univeral data
-    repo = json['repository']['name']
+    repo = _json['repository']['name']
     
-    if 'check_suite' in json:
-        body = parse_check_run(json)
+    if 'check_suite' in _json:
+        body = parse_check_run(_json)
 
     if body is not None:        
         for number in NUMBERS:

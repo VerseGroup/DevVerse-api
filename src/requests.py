@@ -10,3 +10,11 @@ class Scrape(BaseModel):
     endpoint: str
     data: str
     method: str
+
+class AddUserRequest(BaseModel):
+    username: str
+    password: str
+    email: str
+    phone: str
+    display_name: str
+    github_oauth_token:str

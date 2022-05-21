@@ -25,6 +25,11 @@ async def ping():
 async def home():
     return "home"
 
+@app.post("/adduser", status_code=200)
+async def adduser(request: AddUserRequest):
+    # add user to database
+    return {"message": "user added"}
+ 
 
 
 # post github data

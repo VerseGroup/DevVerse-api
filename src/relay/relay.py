@@ -1,5 +1,5 @@
 # imports
-import base_models
+import src.base_models as base_models
 
 # utils
 from src.relay.utils import get_url

@@ -1,4 +1,4 @@
-import base_models
+import src.base_models
 
 
 site_session = base_models.Session()

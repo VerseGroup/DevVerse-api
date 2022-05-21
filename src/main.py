@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 
 #postgres server
-from postgres.crud import Backend_Interface
+from src.postgres.crud import Backend_Interface
 
 
 # startup

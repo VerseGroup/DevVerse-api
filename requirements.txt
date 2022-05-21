@@ -8,3 +8,4 @@ sniffio==1.2.0
 starlette==0.19.1
 typing_extensions==4.2.0
 uuid==1.30
+uvicorn==0.17.6

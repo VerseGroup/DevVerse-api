@@ -5,7 +5,6 @@ import uuid
 # external imports 
 from fastapi import FastAPI
 
-
 #postgres server
 from src.postgres.crud import Backend_Interface
 

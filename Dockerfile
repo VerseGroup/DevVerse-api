@@ -12,9 +12,9 @@ COPY ./run.sh /app/run.sh
 
 RUN chmod +x /app/run.sh
 
-COPY ./scripts /app/scripts
+# COPY ./scripts /app/scripts
 
-RUN chmod +x /app/scripts/*.sh
+# RUN chmod +x /app/scripts/*.sh
 
 COPY ./src /app/src
 

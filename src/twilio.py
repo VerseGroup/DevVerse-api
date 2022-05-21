@@ -11,3 +11,4 @@ SID = str(os.getenv('SID'))
 def sendMessage(body, number):
     client = Client(SID, TOKEN)
     client.messages.create(to=number, from_=PHONE_NUMBER, body=body)
+    

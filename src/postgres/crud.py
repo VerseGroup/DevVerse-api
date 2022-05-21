@@ -1,7 +1,7 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
-from models import *
+from src.postgres.models import *
 
 load_dotenv()
 

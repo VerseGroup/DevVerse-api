@@ -49,11 +49,11 @@ class TodoList():
         }
 
 class Idea():
-    def __init__(self, name, description, user_id):
+    def __init__(self, name, description, user_id, completed):
         self.name = name
         self.description = description
         self.user_id = user_id
-        self.completed = False
+        self.completed = completed
 
     def serialize(self):
         return {

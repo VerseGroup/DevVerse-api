@@ -163,18 +163,18 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    def update_task(self, task: Task):
+    def update_task(self, task: Task, task_id):
         self.__init__()
         """
         This function updates a task in the database.
         """
         update_task_query = """
         UPDATE tasks
-        SET name = %s, completed = %s, description = %s, user_id = %s
+        SET name = %s, completed = %s, description = %s, user_id = %s, todo_list_id = %s,
         WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.id,))
+        cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.todo_list_id, task_id,))
         self.conn.commit()
         cursor.close()
         self.conn.close()

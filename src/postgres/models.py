@@ -17,11 +17,12 @@ class User():
         }
 
 class Task():
-    def __init__(self, name, completed, description, user_id):
+    def __init__(self, name, completed, description, user_id, todo_list_id):
         self.name = name
         self.completed = completed
         self.description = description
         self.user_id = user_id
+        self.todo_list_id = todo_list_id
     
     def serialize(self):
         return {
@@ -29,6 +30,7 @@ class Task():
             'completed': self.completed,
             'description': self.description,
             'user_id': self.user_id,
+            'todo_list_id': self.todo_list_id
         }
 
 class TodoList():

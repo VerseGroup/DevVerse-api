@@ -160,19 +160,6 @@ async def addTask(request: AddTaskRequest):
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
 
-@app.post("/addTodoList", status_code=200)
-async def addTodoList(request: AddTodoListRequest):
-    try:
-        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
-        if type(user_id) is not int:
-            raise Exception("USER_ID WRONG TPYE YOU BUM in todolist")
-
-        todo_list = TodoList([], request.todo_list_name, request.todo_list_description, user_id)
-        interface.create_todo_list(todo_list)
-        return {"message": "success"}
-    except Exception as e:
-        return {"message": "error", "exception" : str(e)}
-
 @app.post("/getTasks", status_code=200)
 async def getTasks(request: GetTasksRequest):
     try:
@@ -181,16 +168,6 @@ async def getTasks(request: GetTasksRequest):
         return {"tasks": tasks}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
-
-@app.post("/getTodoLists", status_code=200)
-async def getTodoLists(request: GetTodoListsRequest):
-    try:
-        #oauth_token
-        todo_lists = interface.fetch_todo_lists_by_oauth(request.oauth_token)
-        return {"todo_lists": todo_lists}
-    except Exception as e:
-        return {"message": "error", "exception" : str(e)}
-
 
 @app.post("/addWebhook", status_code=200)
 async def addWebhook(request: AddWebhookRequest):

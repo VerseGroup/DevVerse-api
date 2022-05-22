@@ -4,6 +4,7 @@ env/
 # secrets
 .env
 
-
 # phone_numbers
 src/phone_numbers.py
+
+.DS_Store

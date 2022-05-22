@@ -1,7 +1,5 @@
 def parse_check_run(json):
 
-    return "reached"
-
     try:
         repo = json['repository']['name']
         sender = json['sender']['login']

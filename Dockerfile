@@ -16,8 +16,6 @@ RUN chmod +x /app/run.sh
 
 # RUN chmod +x /app/scripts/*.sh
 
-COPY .env /app/.env
-
 COPY ./src /app/
 
 CMD ["sh", "./run.sh"]

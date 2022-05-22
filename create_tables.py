@@ -5,11 +5,12 @@ from src.postgres.crud import Backend_Interface
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+if __name__ == "__main__":
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-interfaces = Backend_Interface()
-interfaces.create_user_table()
-interfaces.create_todo_table()
-interfaces.create_task_table()
-interfaces.conn.close()
+    interfaces = Backend_Interface()
+    interfaces.create_user_table()
+    interfaces.create_todo_table()
+    interfaces.create_task_table()
+    interfaces.conn.close()
 

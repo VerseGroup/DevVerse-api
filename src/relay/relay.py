@@ -2,7 +2,7 @@
 from src.relay.utils import get_url
 import requests
 
-def relay(endpoint, method, oauth_token):
+def relay_(endpoint, method, oauth_token):
     url = get_url(endpoint)
 
     header = {

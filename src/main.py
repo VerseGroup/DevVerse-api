@@ -8,7 +8,7 @@ import json
 import os
 
 # internal imports
-from src.relay.relay import relay
+from src.relay.relay import relay_
 from src.phone_numbers import NUMBERS
 from src.twilio_client import sendMessage
 from src.parse_webhook import parse_check_run, parse_push
@@ -36,16 +36,11 @@ async def ping():
 
 @app.post("/relay", status_code=200)
 async def _relay(request: RelayRequest):
-
-    return {"message": [request.endpoint, request.method, request.oauth_token]}
-    
-    '''
     try:
-        response = relay(request.endpoint, request.method, request.oauth_token)
-        return {"message": "success", "response": response}
+        response = relay_(request.endpoint, request.method, request.oauth_token)
+        return {"message": "success", "response": response.content}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
-    '''
 
  
 # post github data (testing)

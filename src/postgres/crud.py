@@ -38,28 +38,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
         
-    
-    def create_task_table(self):
-        self.__init__()
-        """
-        This function creates a table in the database called tasks.
-        """
-        create_task_table_query = """
-        CREATE TABLE tasks (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(500) NOT NULL,
-            completed BOOLEAN NOT NULL,
-            description VARCHAR(500) NOT NULL,
-            user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        );
-        """
-        cursor = self.conn.cursor()
-        cursor.execute(create_task_table_query)
-        self.conn.commit()
-        cursor.close()
-        self.conn.close()
-        
     def create_todo_table(self):
         self.__init__()
         """

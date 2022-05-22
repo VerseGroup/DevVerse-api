@@ -2,12 +2,11 @@
 from src.relay.utils import get_url
 import requests
 
-def relay(relay_request):
-    url = get_url(relay_request.endpoint)
-    method = relay_request.method
+def relay_(endpoint, method, oauth_token):
+    url = get_url(endpoint)
 
     header = {
-        "Authorization": f"token {relay_request.oauth_token}",
+        "Authorization": f"token {oauth_token}",
     }
 
     if method == "GET":

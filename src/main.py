@@ -107,7 +107,9 @@ async def addUser(request: AddUserRequest):
     try:
         response = interface.create_user(user)
         if response is None:
-            return user.serialize()
+            user = user.serialize()
+            user['id'] = response
+            return user
         else:
             return {"message": "error", "exception" : str(response)}
     except Exception as e:

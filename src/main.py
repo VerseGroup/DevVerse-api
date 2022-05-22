@@ -74,7 +74,7 @@ async def webhook(request: Request):
         for number in NUMBERS:
             keys = []
             for key in body_data:
-                keys.append(body_data[key])
+                keys.append(key)
             sendMessage(f"not a relevant update: {keys}", number)
         
 # create sign up 

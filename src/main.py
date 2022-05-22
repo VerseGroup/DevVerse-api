@@ -59,6 +59,8 @@ async def webhook(request: Request):
     
     if 'check_run' in body_data:
         body = parse_check_run(body_data)
+        for numbers in NUMBERS:
+            sendMessage("reached", numbers)
     if 'push' in body_data:
         body = parse_push(body_data)
     else:

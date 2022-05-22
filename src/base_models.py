@@ -45,3 +45,10 @@ class AddIdeaRequest(BaseModel):
 
 class ViewIdeasRequest(BaseModel):
     oauth_token: str
+
+class EditIdeaRequest(BaseModel):
+    idea_id: int
+    idea_name: str
+    idea_description: str
+    idea_completed: bool
+    user_id: int

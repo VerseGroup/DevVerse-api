@@ -206,5 +206,5 @@ class Backend_Interface:
         cursor.execute(fetch_task_by_todo_list_id_query, tuple(todo_list_ids))
         tasks = cursor.fetchall()
         cursor.close()
-        return [Task(*task).serialize() for task in tasks]
+        return [{"name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
     

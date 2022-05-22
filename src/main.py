@@ -21,7 +21,6 @@ from src.postgres.crud import Backend_Interface
 app = FastAPI()
 interface = Backend_Interface()
 
-global do_all_texts 
 do_all_texts = False
 
 ####### ROUTES [Basic] #######
@@ -114,5 +113,6 @@ async def signIn(Oauth_Token: str):
 
 @app.get("/changetextsettings", status_code=200)
 async def changeTextSettings():
+    global do_all_texts
     do_all_texts = not do_all_texts
     return {"message": f"text settings changed to {do_all_texts}"}

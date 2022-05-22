@@ -94,10 +94,15 @@ async def addUser(request: AddUserRequest):
     email = data_dict['email']
     name = data_dict['name']
     
-
     user = User(username, email, request.phone_number, name, request.oauth_token)
-    interface.create_user(user)
-    return user.serialize()
+    try:
+        response = interface.create_user(user)
+        if response is None:
+            return user.serialize()
+        else:
+            return {"message": "error", "exception" : str(response)}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
 
 
 # sign in 

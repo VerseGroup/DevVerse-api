@@ -92,6 +92,7 @@ class Backend_Interface:
             self.conn.commit()
             cursor.close()
             self.conn.close()
+            return None
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 

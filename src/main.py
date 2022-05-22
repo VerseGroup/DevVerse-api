@@ -199,17 +199,16 @@ async def addWebhook(request: AddWebhookRequest):
 
     URL = f"https://api.github.com/repos/{username}/{repo}/hooks"
 
-    data = {
-        "name": "web",
-        "active": True,
-        "events": ["check_run", "push"],
-        "config":{"url":"https://devverse.herokuapp.com/webhook",
-        "content_type":"json",
-        "insecure_ssl":"0"}
+    headers = {
+        "accept": "application/vnd.github.v3+json",
+        "Authorization": f"token {request.oauth_token}",
+        'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    response = requests.post(URL, data=data)
+    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\"],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
 
-    return {"message": "success", "hook": response.json()}
+    response = requests.post(URL, data=data, headers=headers)
+
+    return {"message": "success", "response": response.json()}
     
 

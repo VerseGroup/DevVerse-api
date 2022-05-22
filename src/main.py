@@ -219,3 +219,12 @@ async def viewIdeas(request: ViewIdeasRequest):
         return ideas
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
+
+
+@app.post("/editIdea", status_code=200)
+async def editIdea(request: EditIdeaRequest):
+    try:
+        idea = Idea(request.idea_name, request.idea_description, request.user_id, request.idea_completed)
+        interface.edit_idea(idea, request.idea_id)
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}

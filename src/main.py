@@ -43,10 +43,6 @@ async def _relay(request: RelayRequest):
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
 
-@app.post("/adduser", status_code=200)
-async def adduser(request: AddUserRequest):
-    # add user to database
-    return {"message": "user added"}
  
 # post github data (testing)
 @app.post("/data", status_code=200)
@@ -82,12 +78,12 @@ async def webhook(request: Request):
             
 # create sign up 
 @app.post("/addUser", status_code=200)
-async def addUser(Oauth_Token: str, phone_number: str):
+async def addUser(request: AddUserRequest):
     # add user to database
 
     # if oauth exists return user coresponding to oauth.
     headers = {
-        "Authorization": f"token {Oauth_Token}",
+        "Authorization": f"token {request.oauth_token}",
     }
 
     r = requests.get("https://api.github.com/user", headers=headers)
@@ -98,9 +94,9 @@ async def addUser(Oauth_Token: str, phone_number: str):
     username = data_dict['login']
     email = data_dict['email']
     display_name = data_dict['name']
-    github_oauth_token = data_dict['id']
+    
 
-    user = User(username, email, phone_number, display_name, github_oauth_token)
+    user = User(username, email, request.phone_number, display_name, request.oauth_token)
     interface.create_user(user)
     return user.serialize()
 

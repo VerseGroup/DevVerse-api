@@ -312,7 +312,7 @@ class Backend_Interface:
         This function fetches an idea by user_id from database.
         """
         fetch_idea_by_id_query = """
-        SELECT * FROM ideas WHERE user_id = %s LIMIT 1;
+        SELECT * FROM ideas WHERE user_id = %s;
         """
         cursor = self.conn.cursor()
         cursor.execute(fetch_idea_by_id_query, (idea_id,))

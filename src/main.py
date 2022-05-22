@@ -65,14 +65,11 @@ async def webhook(request: Request):
     
     if 'check_run' in body_data:
         body = parse_check_run(body_data)
-        for number in NUMBERS:
-            sendMessage(body, number)
     if 'head_commit' in body_data:
         body = parse_push(body_data)
     if 'issue' in body_data:
         body = parse_issue(body_data)
-        for number in NUMBERS:
-            sendMessage(body, number)
+
     else:
         body = None
 
@@ -213,7 +210,7 @@ async def addWebhook(request: AddWebhookRequest):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\", \"check_run\", \"issues\",],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
+    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\",\"check_run\",\"issues\"],\"config\":{\"url\":\"https://devverse-server.herokuapp.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
 
     response = requests.post(URL, data=data, headers=headers)
 

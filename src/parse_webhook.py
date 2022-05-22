@@ -5,11 +5,11 @@ def parse_check_run(json):
         result = json['check_run']['conclusion']
         status = json['check_run']['status']
         output = json['check_run']['output']['title']
-    except:
-        return None
+    except Exception as e:
+        return str(e)
 
     if status != 'completed':
-        return None
+        return "not completed"
 
     message = f"Your code (by {sender}) check for {repo} has result: \'{result}\'!\n\n Output: {output}"
 

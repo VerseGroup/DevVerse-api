@@ -133,6 +133,7 @@ class Backend_Interface:
             return error
 
     def update_user(self, user: User, id: int):
+        self.__init__()
         """
         This function updates a user in the database.
         """
@@ -145,8 +146,10 @@ class Backend_Interface:
         cursor.execute(update_user_query, (user.username, user.email, user.phone, user.name, user.github_oauth_token, id,))
         self.conn.commit()
         cursor.close()
+         self.conn.close()
 
     def update_task(self, task: Task):
+        self.__init__()
         """
         This function updates a task in the database.
         """
@@ -159,8 +162,10 @@ class Backend_Interface:
         cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.id,))
         self.conn.commit()
         cursor.close()
+        self.conn.close()
 
     def update_todo_list(self, todo_list: TodoList):
+        self.__init__()
         """
         This function updates a todo list in the database.
         """
@@ -173,8 +178,10 @@ class Backend_Interface:
         cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.id))
         self.conn.commit()
         cursor.close()
+        self.conn.close()
 
     def fetch_user_by_oauth(self, oauth_token: str):
+        self.__init__()
         """
         This function fetches a user by oauth token.
         """
@@ -185,6 +192,7 @@ class Backend_Interface:
         cursor.execute(fetch_user_by_oauth_query, (oauth_token))
         user = cursor.fetchone()
         cursor.close()
+        self.conn.close()
 
         # if user exists return user esle return None
         if user == None:
@@ -192,6 +200,7 @@ class Backend_Interface:
         return user[0]
 
     def fetch_todo_list_by_user_id(self, user_id: int):
+        self.__init__()
         """
         This function fetches a todo list by user id from the database.
         """
@@ -202,11 +211,13 @@ class Backend_Interface:
         cursor.execute(fetch_todo_list_by_user_id_query, (user_id))
         todo_list = cursor.fetchone()
         cursor.close()
+        self.conn.close()
         if todo_list == None:
             return None
         return todo_list[0]
 
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):
+        self.__init__()
         """
         This function fetches a task by todo list id from the database.
         """
@@ -217,5 +228,6 @@ class Backend_Interface:
         cursor.execute(fetch_task_by_todo_list_id_query, tuple(todo_list_ids))
         tasks = cursor.fetchall()
         cursor.close()
+        self.conn.close()
         return [{"name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
-    
+        

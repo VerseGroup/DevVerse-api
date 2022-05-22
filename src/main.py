@@ -140,3 +140,27 @@ async def changeTextSettings():
     global do_all_texts
     do_all_texts = not do_all_texts
     return {"message": f"text settings changed to {do_all_texts}"}
+
+@app.post("/addWebhook", status_code=200)
+async def addWebhook(request: AddWebhookRequest):
+    repo = request.repo
+    oauth_token = request.oauth_token
+    user = interface.fetch_user_by_oauth(request.oauth_token)
+    username = user[1]
+
+    URL = f"https://api.github.com/repos/{username}/{repo}/hooks"
+
+    data = {
+        "name": "web",
+        "active": True,
+        "events": ["check_run", "push"],
+        "config":{"url":"https://devverse.herokuapp.com/webhook",
+        "content_type":"json",
+        "insecure_ssl":"0"}
+    }
+
+    response = requests.post(URL, data=data)
+
+    return {"message": "success", "hook": response.json()}
+    
+

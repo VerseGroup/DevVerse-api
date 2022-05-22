@@ -18,3 +18,7 @@ class AddUserRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     oauth_token: str
+
+class AddWebhookRequest(BaseModel):
+    oauth_token: str
+    repo: str

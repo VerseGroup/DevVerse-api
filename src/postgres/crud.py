@@ -212,6 +212,22 @@ class Backend_Interface:
             return None
         return user
 
+    def fetch_user_id_by_oauth(self, oauth_token: str):
+        self.__init__()
+        """
+        This function fetches a user id by oauth token.
+        """
+        fetch_user_id_by_oauth_query = """
+        SELECT id FROM users WHERE github_oauth_token = %s LIMIT 1;
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(fetch_user_id_by_oauth_query, (oauth_token,))
+        user_id = cursor.fetchone()
+        cursor.close()
+        self.conn.close()
+        return user_id[0]
+        
+
     def fetch_todo_list_by_user_id(self, user_id: int):
         self.__init__()
         """

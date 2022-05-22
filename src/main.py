@@ -137,6 +137,22 @@ async def changeTextSettings():
     do_all_texts = not do_all_texts
     return {"message": f"text settings changed to {do_all_texts}"}
 
+@app.post("/addTask", status_code=200)
+async def addTask(request: AddTaskRequest):
+    try:
+        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)[0]
+        if type(user_id) is not int:
+            raise Exception("USER_ID WRONG TPYE YOU BUM")
+
+        task = Task(request.task_name, False, request.task_description, user_id)
+        interface.create_task(task)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
+
+#task_name: str
+#task_description: str
+#oauth_token: str
 @app.post("/addWebhook", status_code=200)
 async def addWebhook(request: AddWebhookRequest):
     repo = request.repo

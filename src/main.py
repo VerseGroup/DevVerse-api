@@ -204,7 +204,7 @@ async def addIdea(request: AddIdeaRequest):
         user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
         if type(user_id) is not int:
             raise Exception("USER_ID WRONG TPYE YOU BUM in addIdea")
-        idea = Idea(request.idea_name, request.idea_description, user_id)
+        idea = Idea(request.idea_name, request.idea_description, user_id, False)
         interface.create_idea(idea)
         return {"message": "success"}
     except Exception as e:

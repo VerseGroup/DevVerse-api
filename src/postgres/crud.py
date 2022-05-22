@@ -1,4 +1,4 @@
-from src.postgres.models import *
+from models import *
 from dotenv import load_dotenv
 import psycopg2
 import os
@@ -34,7 +34,7 @@ class Backend_Interface:
         cursor.execute(create_user_table_query)
         self.conn.commit()
         cursor.close()
-        self.conn.close()
+        
     
     def create_task_table(self):
         """
@@ -54,7 +54,7 @@ class Backend_Interface:
         cursor.execute(create_task_table_query)
         self.conn.commit()
         cursor.close()
-        self.conn.close()
+        
         
     def create_todo_table(self):
         """
@@ -65,14 +65,14 @@ class Backend_Interface:
             id SERIAL PRIMARY KEY,
             tasks_ids INTEGER [] NOT NULL,
             user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users (id),
+            FOREIGN KEY (user_id) REFERENCES users (id)
         );
         """
         cursor = self.conn.cursor()
         cursor.execute(create_todo_table_query)
         self.conn.commit()
         cursor.close()
-        self.conn.close()
+        
 
     def create_user(self, user: User):
         try:
@@ -84,7 +84,6 @@ class Backend_Interface:
             cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token,))
             self.conn.commit()
             cursor.close()
-            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
@@ -101,7 +100,6 @@ class Backend_Interface:
             cursor.execute(create_task_query, (task.name, task.completed, task.description, task.user_id,))
             self.conn.commit()
             cursor.close()
-            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
@@ -118,7 +116,6 @@ class Backend_Interface:
             cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id,))
             self.conn.commit()
             cursor.close()
-            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
@@ -135,7 +132,6 @@ class Backend_Interface:
         cursor.execute(update_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token, user.id,))
         self.conn.commit()
         cursor.close()
-        self.conn.close()
 
     def update_task(self, task: Task):
         """
@@ -150,7 +146,6 @@ class Backend_Interface:
         cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.id,))
         self.conn.commit()
         cursor.close()
-        self.conn.close()
 
     def update_todo_list(self, todo_list: TodoList):
         """
@@ -165,7 +160,6 @@ class Backend_Interface:
         cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.id,))
         self.conn.commit()
         cursor.close()
-        self.conn.close()
 
     def fetch_user_by_oauth(self, username: str):
         """
@@ -178,7 +172,6 @@ class Backend_Interface:
         cursor.execute(fetch_user_by_oauth_query, (username,))
         user = cursor.fetchone()
         cursor.close()
-        self.conn.close()
         return user[0]
 
     def fetch_user_id_by_username(self, username: str):
@@ -192,7 +185,6 @@ class Backend_Interface:
         cursor.execute(fetch_user_id_by_username_query, (username,))
         user_id = cursor.fetchone()
         cursor.close()
-        self.conn.close()
         user_id = user_id[0]
         return user_id
 
@@ -207,7 +199,6 @@ class Backend_Interface:
         cursor.execute(fetch_todo_list_by_user_id_query, (user_id,))
         todo_list = cursor.fetchone()
         cursor.close()
-        self.conn.close()
         return todo_list
 
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):
@@ -221,6 +212,5 @@ class Backend_Interface:
         cursor.execute(fetch_task_by_todo_list_id_query, tuple(todo_list_ids))
         task = cursor.fetchone()
         cursor.close()
-        self.conn.close()
         return list(task)
     

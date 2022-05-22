@@ -9,6 +9,7 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 interfaces = Backend_Interface()
 interfaces.create_user_table()
-interfaces.create_user_table()
+interfaces.create_todo_table()
 interfaces.create_task_table()
+interfaces.conn.close()
 

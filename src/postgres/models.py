@@ -1,5 +1,5 @@
 class User():
-    def __init__(self, username, email, password, phone, display_name, github_oauth_token):
+    def __init__(self, username, email, phone, display_name, github_oauth_token):
         self.username = username
         self.email = email
         self.phone = phone

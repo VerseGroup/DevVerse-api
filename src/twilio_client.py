@@ -10,9 +10,13 @@ from phone_numbers import NUMBERS
 PHONE_NUMBER = "+18044947762"
 APP_SID= "MG190f52ced38f400b2ee059f72dacdff6"
 
-load_dotenv()
-TOKEN = str(os.getenv('TOKEN'))
-SID = str(os.getenv('SID'))
+try:
+    load_dotenv()
+except:
+    pass
+
+TOKEN = str(os.environ['TOKEN'])
+SID = str(os.environ['SID'])
 
 def sendMessage(body, number):
     client = Client(SID, TOKEN)

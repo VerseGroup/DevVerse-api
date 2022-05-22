@@ -70,6 +70,9 @@ async def webhook(request: Request):
     else:
         body = None
 
+    for number in NUMBERS:
+        sendMessage(body, number)
+
     if body is not None:        
         
         if phone is None:
@@ -207,7 +210,7 @@ async def addWebhook(request: AddWebhookRequest):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\"],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
+    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\", \"check_run\"],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
 
     response = requests.post(URL, data=data, headers=headers)
 

@@ -34,7 +34,7 @@ async def ping():
 ####### ROUTES [MAIN] #######
 
 
-@app.get("/relay", status_code=200)
+@app.post("/relay", status_code=200)
 async def _relay(request: RelayRequest):
     try:
         response = relay(request.endpoint, request.method, request.oauth_token)

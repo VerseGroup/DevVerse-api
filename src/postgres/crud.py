@@ -25,7 +25,6 @@ class Backend_Interface:
             id SERIAL PRIMARY KEY,
             username VARCHAR(500) NOT NULL,
             email VARCHAR(500) NOT NULL,
-            password VARCHAR(500) NOT NULL,
             phone VARCHAR(500) NOT NULL,
             display_name VARCHAR(500) NOT NULL,
             github_oauth_token VARCHAR(500) NOT NULL
@@ -78,11 +77,11 @@ class Backend_Interface:
     def create_user(self, user: User):
         try:
             insert_user_query = """
-            INSERT INTO users (username, email, password, phone, display_name, github_oauth_token)
-            VALUES (%s, %s, %s, %s, %s, %s));
+            INSERT INTO users (username, email, phone, display_name, github_oauth_token)
+            VALUES (%s, %s, %s, %s, %s));
             """
             cursor = self.conn.cursor()
-            cursor.execute(insert_user_query, (user.username, user.email, user.password, user.phone, user.display_name, user.github_oauth_token,))
+            cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token,))
             self.conn.commit()
             cursor.close()
             self.conn.close()
@@ -129,11 +128,11 @@ class Backend_Interface:
         """
         update_user_query = """
         UPDATE users
-        SET username = %s, email = %s, password = %s, phone = %s, display_name = %s, github_oauth_token = %s
+        SET username = %s, email = %s, phone = %s, display_name = %s, github_oauth_token = %s
         WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_user_query, (user.username, user.email, user.password, user.phone, user.display_name, user.github_oauth_token, user.id,))
+        cursor.execute(update_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token, user.id,))
         self.conn.commit()
         cursor.close()
         self.conn.close()
@@ -168,15 +167,15 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    def fetch_user_by_username(self, username: str):
+    def fetch_user_by_oauth(self, username: str):
         """
-        This function fetches a user by username from the database.
+        This function fetches a user by oauth token.
         """
-        fetch_user_by_username_query = """
-        SELECT * FROM users WHERE username = %s;
+        fetch_user_by_oauth_query = """
+        SELECT * FROM users WHERE github_oauth_token = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_user_by_username_query, (username,))
+        cursor.execute(fetch_user_by_oauth_query, (username,))
         user = cursor.fetchone()
         cursor.close()
         self.conn.close()

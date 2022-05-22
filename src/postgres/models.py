@@ -2,7 +2,6 @@ class User():
     def __init__(self, username, email, password, phone, display_name, github_oauth_token):
         self.username = username
         self.email = email
-        self.password = password
         self.phone = phone
         self.display_name = display_name
         self.github_oauth_token = github_oauth_token
@@ -11,7 +10,6 @@ class User():
         return {
             'username': self.username,
             'email': self.email,
-            'password': self.password,
             'phone': self.phone,
             'display_name': self.display_name,
             'github_oauth_token': self.github_oauth_token

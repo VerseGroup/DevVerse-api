@@ -64,9 +64,9 @@ async def webhook(request: Request):
         phone = None
     
     if 'check_run' in body_data:
-        for number in NUMBERS:
-            sendMessage("reached", number)
         body = parse_check_run(body_data)
+        for number in NUMBERS:
+            sendMessage(f"reached: \'{body}\'", number)
     if 'head_commit' in body_data:
         body = parse_push(body_data)
     else:

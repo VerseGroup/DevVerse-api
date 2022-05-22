@@ -323,3 +323,17 @@ class Backend_Interface:
             return None
         return ideas
 
+    #edit idea 
+    def edit_idea(self, idea: Idea, id: int):
+        self.__init__()
+        """
+        This function edits an idea in the database.
+        """
+        edit_idea_query = """
+        UPDATE ideas SET name = %s, description = %s, user_id = %s, completed = %s WHERE id = %s;
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(edit_idea_query, (idea.name, idea.description, idea.user_id, idea.completed, id,))
+        self.conn.commit()
+        cursor.close()
+        self.conn.close()

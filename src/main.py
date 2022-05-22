@@ -56,6 +56,12 @@ async def webhook(request: Request):
 
     # univeral data
     repo = body_data['repository']['name']
+    sender = body_data['sender']['login']
+
+    try:
+        phone = interface.get_user(sender)[3]
+    except:
+        phone = None
     
     if 'check_run' in body_data:
         body = parse_check_run(body_data)
@@ -65,8 +71,11 @@ async def webhook(request: Request):
         body = None
 
     if body is not None:        
-        for number in NUMBERS:
-            sendMessage(body, number)
+        if phone is None:
+            for number in NUMBERS:
+                sendMessage(body, phone)
+        else:
+            sendMessage(body, phone)
     else:
         if do_all_texts:
             for number in NUMBERS:

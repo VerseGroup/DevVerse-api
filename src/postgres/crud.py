@@ -197,7 +197,7 @@ class Backend_Interface:
         # if user exists return user esle return None
         if user == None:
             return None
-        return user[0]
+        return user
 
     def fetch_todo_list_by_user_id(self, user_id: int):
         self.__init__()

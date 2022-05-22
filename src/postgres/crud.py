@@ -166,7 +166,7 @@ class Backend_Interface:
         This function fetches a user by oauth token.
         """
         fetch_user_by_oauth_query = """
-        SELECT * FROM users WHERE github_oauth_token = %s;
+        SELECT * FROM users WHERE github_oauth_token = %s LIMIT 1;
         """
         cursor = self.conn.cursor()
         cursor.execute(fetch_user_by_oauth_query, (username,))
@@ -179,14 +179,13 @@ class Backend_Interface:
         This function fetches a user id by username from the database.
         """
         fetch_user_id_by_username_query = """
-        SELECT id FROM users WHERE username = %s;
+        SELECT id FROM users WHERE username = %s LIMIT 1;
         """
         cursor = self.conn.cursor()
         cursor.execute(fetch_user_id_by_username_query, (username,))
         user_id = cursor.fetchone()
         cursor.close()
-        user_id = user_id[0]
-        return user_id
+        return user_id[0]
 
     def fetch_todo_list_by_user_id(self, user_id: int):
         """
@@ -199,7 +198,7 @@ class Backend_Interface:
         cursor.execute(fetch_todo_list_by_user_id_query, (user_id,))
         todo_list = cursor.fetchone()
         cursor.close()
-        return todo_list
+        return todo_list[0]
 
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):
         """
@@ -210,7 +209,7 @@ class Backend_Interface:
         """
         cursor = self.conn.cursor()
         cursor.execute(fetch_task_by_todo_list_id_query, tuple(todo_list_ids))
-        task = cursor.fetchone()
+        tasks = cursor.fetchall()
         cursor.close()
-        return list(task)
+        return [Task(*task).serialize() for task in tasks]
     

@@ -60,7 +60,7 @@ async def webhook(request: Request):
     # univeral data
     repo = body_data['repository']['name']
     
-    if 'check_suite' in body_data:
+    if body_data.has_key('check_run'):
         body = parse_check_run(body_data)
     else:
         body = None

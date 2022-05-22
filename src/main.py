@@ -59,7 +59,7 @@ async def webhook(request: Request):
     
     if 'check_run' in body_data:
         body = parse_check_run(body_data)
-    if 'push' in body_data:
+    if 'head_commit' in body_data:
         body = parse_push(body_data)
     else:
         body = None

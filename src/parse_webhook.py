@@ -13,6 +13,8 @@ def parse_check_run(json):
 
     message = f"Your code (by {sender}) check for {repo} has result: \'{result}\'!\n\n Output: {output}"
 
+    return message
+
 def parse_push(json):
     try:
         repo = json['repository']['name']
@@ -23,3 +25,5 @@ def parse_push(json):
         return None
 
     message = f"Your code (by {sender}) has been pushed to {repo}!\n\n Commit: {commit_message}\n\n {commit_url}"
+
+    return message

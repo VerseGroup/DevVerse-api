@@ -70,7 +70,13 @@ async def webhook(request: Request):
     if body is not None:        
         for number in NUMBERS:
             sendMessage(body, number)
-
+    else:
+        for number in NUMBERS:
+            keys = []
+            for key in body_data:
+                keys.append(body_data[key])
+            sendMessage(f"not a relevant update: {keys}", number)
+        
 # create sign up 
 @app.post("/addUser", status_code=200)
 async def addUser(Oauth_Token: str, phone_number: str):

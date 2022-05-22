@@ -188,7 +188,7 @@ class Backend_Interface:
         SELECT * FROM users WHERE github_oauth_token = %s LIMIT 1;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_user_by_oauth_query, (oauth_token))
+        cursor.execute(fetch_user_by_oauth_query, (oauth_token,))
         user = cursor.fetchone()
         cursor.close()
         self.conn.close()

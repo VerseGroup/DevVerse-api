@@ -213,7 +213,7 @@ async def addWebhook(request: AddWebhookRequest):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\", \"check_run\", \"issue\",],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
+    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\", \"check_run\", \"issues\",],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
 
     response = requests.post(URL, data=data, headers=headers)
 

@@ -78,7 +78,6 @@ class Backend_Interface:
         self.conn.commit()
         cursor.close()
         self.conn.close()
-        
 
     def create_user(self, user: User):
         try:
@@ -92,7 +91,21 @@ class Backend_Interface:
             self.conn.commit()
             cursor.close()
             self.conn.close()
-            return None
+            self.__init__()
+
+            # fetching the user id
+            """
+            This function fetches a user id by oauth token from the database.
+            """
+            fetch_user_id_by_oauth_query = """
+            SELECT id FROM users WHERE github_oauth_token = %s LIMIT 1;
+            """
+            cursor = self.conn.cursor()
+            cursor.execute(fetch_user_id_by_oauth_query, (user.github_oauth_token,))
+            user_id = cursor.fetchone()
+            cursor.close()
+            self.conn.close()
+            return user_id
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
@@ -247,4 +260,5 @@ class Backend_Interface:
         if user == None:
             return None
         return list(user)
-        
+    
+    

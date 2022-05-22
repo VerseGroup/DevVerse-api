@@ -136,11 +136,13 @@ async def signIn(request: LoginRequest):
 
         return {"id": id, "username": username, "email": email, "phone": phone, "name": name, "github_oauth_token": github_oauth_token}
 
+#twilio config
 @app.get("/changetextsettings", status_code=200)
 async def changeTextSettings():
     global do_all_texts
     do_all_texts = not do_all_texts
     return {"message": f"text settings changed to {do_all_texts}"}
+
 
 @app.post("/addTask", status_code=200)
 async def addTask(request: AddTaskRequest):

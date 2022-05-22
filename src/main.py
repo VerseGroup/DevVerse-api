@@ -21,7 +21,8 @@ from src.postgres.crud import Backend_Interface
 app = FastAPI()
 interface = Backend_Interface()
 
-DO_ALL_TEXTS= False
+global do_all_texts 
+do_all_texts = False
 
 ####### ROUTES [Basic] #######
 
@@ -72,7 +73,7 @@ async def webhook(request: Request):
         for number in NUMBERS:
             sendMessage(body, number)
     else:
-        if DO_ALL_TEXTS:
+        if do_all_texts:
             for number in NUMBERS:
                 keys = []
                 for key in body_data:
@@ -117,5 +118,5 @@ async def signIn(Oauth_Token: str):
 
 @app.get("/changetextsettings", status_code=200)
 async def changeTextSettings():
-    DO_ALL_TEXTS = not DO_ALL_TEXTS
-    return {"message": f"text settings changed to {DO_ALL_TEXTS}"}
+    do_all_texts = not do_all_texts
+    return {"message": f"text settings changed to {do_all_texts}"}

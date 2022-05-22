@@ -14,7 +14,7 @@ def parse_check_run(json):
     if status != 'completed':
         return None
 
-    message = f"Your code (by {sender}) check for {repo} has result: \'{result}\'!\n\nOutput: {output}\n\ntimestamp: {time}"
+    message = f"Your code (by {sender}) check for {repo} has result: \'{result}\'!\n\nOutput: {output}\n\nURL: {url}\n\ntimestamp: {time}"
 
     return message
 
@@ -26,7 +26,7 @@ def parse_push(json):
         commit_url = json['head_commit']['html_url']
         commit_time = json['head_commit']['timestamp']
     except Exception as e:
-        return str(e)
+        return None
 
     message = f"Your code (by {sender}) has been pushed to {repo}!\n\nCommit: {commit_message}\n\n More information: {commit_url} \n\n Time: {commit_time}"
 

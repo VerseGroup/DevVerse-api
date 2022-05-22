@@ -41,7 +41,6 @@ class Backend_Interface:
     
     def create_task_table(self):
         self.__init__()
-        self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         """
         This function creates a table in the database called tasks.
         """
@@ -146,7 +145,7 @@ class Backend_Interface:
         cursor.execute(update_user_query, (user.username, user.email, user.phone, user.name, user.github_oauth_token, id,))
         self.conn.commit()
         cursor.close()
-         self.conn.close()
+        self.conn.close()
 
     def update_task(self, task: Task):
         self.__init__()

@@ -14,7 +14,7 @@ from src.twilio_client import sendMessage
 from src.parse_webhook import parse_check_run, parse_push
 
 #postgres server
-from src.postgres.models import User, Task, TodoList
+from src.postgres.models import User, Task, TodoList, Idea
 from src.postgres.crud import Backend_Interface
 
 # startup
@@ -95,8 +95,10 @@ async def webhook(request: Request):
 @app.post("/addUser", status_code=200)
 async def addUser(request: AddUserRequest):
     # add user to database
-
+    
     # if oauth exists return user coresponding to oauth.
+    
+
     headers = {
         "Authorization": f"token {request.oauth_token}",
     }
@@ -104,7 +106,6 @@ async def addUser(request: AddUserRequest):
     r = requests.get("https://api.github.com/user", headers=headers)
     
     data_dict = r.json()
-
 
     username = data_dict['login']
     email = data_dict['email']
@@ -216,3 +217,27 @@ async def addWebhook(request: AddWebhookRequest):
     return {"message": "success", "response": response.json()}
     
 
+# idea models
+
+
+@app.post("/addIdea", status_code=200)
+async def addIdea(request: AddIdeaRequest):
+    try:
+        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
+        if type(user_id) is not int:
+            raise Exception("USER_ID WRONG TPYE YOU BUM in addIdea")
+        idea = Idea(request.idea_name, request.idea_description, user_id)
+        interface.create_idea(idea)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
+
+@app.post("/viewIdeas", status_code=200)
+async def viewIdeas(request: ViewIdeasRequest):
+    try:
+        #user id from oauth
+        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
+        ideas = interface.fetch_ideas_by_user_id(user_id)
+        return ideas
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}

@@ -38,3 +38,10 @@ class AddTodoListRequest(BaseModel):
     todo_list_description: str
     oauth_token: str
 
+class AddIdeaRequest(BaseModel):
+    idea_name: str
+    idea_description: str
+    oauth_token: str
+
+class ViewIdeasRequest(BaseModel):
+    oauth_token: str

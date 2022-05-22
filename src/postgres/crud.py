@@ -287,4 +287,61 @@ class Backend_Interface:
             return None
         return list(user)
     
+    #interface.create_idea(idea)
+    def create_idea_table(self):
+        self.__init__()
+        """
+        This function creates the ideas table in the database.
+        """
+        create_idea_table_query = """
+        CREATE TABLE ideas (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            description VARCHAR(255) NOT NULL,
+            user_id INTEGER NOT NULL,
+            completed BOOLEAN NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        );
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(create_idea_table_query)
+        self.conn.commit()
+        cursor.close()
+        self.conn.close()
+
+
+
+    def create_idea(self, idea: Idea):
+        self.__init__()
+        """
+        This function creates an idea in the database.
+        """
+        create_idea_query = """
+        INSERT INTO ideas (name, description, user_id, completed)
+        VALUES (%s, %s, %s, %s);
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(create_idea_query, (idea.name, idea.description, idea.user_id, idea.completed,))
+        self.conn.commit()
+        cursor.close()
+        self.conn.close()
     
+
+    #fetch_ideas_by_user_id
+    def fetch_ideas_by_user_id(self, idea_id: int):
+        self.__init__()
+        """
+        This function fetches an idea by user_id from database.
+        """
+        fetch_idea_by_id_query = """
+        SELECT * FROM ideas WHERE user_id = %s LIMIT 1;
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(fetch_idea_by_id_query, (idea_id,))
+        ideas = cursor.fetchall()
+        cursor.close()
+        self.conn.close()
+        if ideas == None:
+            return None
+        return ideas
+

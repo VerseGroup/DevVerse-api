@@ -45,3 +45,18 @@ class TodoList():
             'name': self.name,
             'description': self.description
         }
+
+class Idea():
+    def __init__(self, name, description, user_id):
+        self.name = name
+        self.description = description
+        self.user_id = user_id
+        self.completed = False
+
+    def serialize(self):
+        return {
+            'name': self.name,
+            'description': self.description,
+            'user_id': self.user_id,
+            'completed': self.completed
+        }

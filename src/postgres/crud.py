@@ -228,22 +228,25 @@ class Backend_Interface:
         return user_id[0]
         
 
-    def fetch_todo_list_by_user_id(self, user_id: int):
+    def fetch_todo_lists_by_oauth(self, oauth_token: str):
         self.__init__()
         """
-        This function fetches a todo list by user id from the database.
+        This function fetches a todo list by oauth from the database.
         """
         fetch_todo_list_by_user_id_query = """
-        SELECT * FROM todos WHERE user_id = %s;
+        SELECT * FROM todos WHERE github_oauth_token = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_todo_list_by_user_id_query, (user_id))
-        todo_list = cursor.fetchone()
+        cursor.execute(fetch_todo_list_by_user_id_query, (oauth_token,))
+        todo_list = cursor.fetchall()
         cursor.close()
         self.conn.close()
         if todo_list == None:
             return None
-        return todo_list[0]
+        todo_list = list(todo_list)
+
+        todo_list = [{"id": x[0], "task_ids": x[1], "user_id": x[2]} for x in todo_list]
+        return todo_list 
 
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):
         self.__init__()

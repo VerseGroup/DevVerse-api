@@ -26,3 +26,9 @@ class AddTaskRequest(BaseModel):
 class AddWebhookRequest(BaseModel):
     oauth_token: str
     repo: str
+
+class GetTasksRequest(BaseModel):
+    todo_list_id: int
+
+class GetTodoListsRequest(BaseModel):
+    oauth_token: str

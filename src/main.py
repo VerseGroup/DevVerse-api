@@ -152,6 +152,26 @@ async def addTask(request: AddTaskRequest):
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
 
+@app.post("/getTasks", status_code=200)
+async def getTasks(request: GetTasksRequest):
+    try:
+        #oauth_token   
+        tasks = interface.fetch_task_by_todo_list_id(request.todo_list_id)
+        return {"tasks": tasks}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
+
+@app.post("/getTodoLists", status_code=200)
+async def getTodoLists(request: GetTodoListsRequest):
+    try:
+        #oauth_token
+        todo_lists = interface.fetch_todo_lists_by_oauth(request.oauth_token)
+        return {"todo_lists": todo_lists}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
+
+
+
 #task_name: str
 #task_description: str
 #oauth_token: str

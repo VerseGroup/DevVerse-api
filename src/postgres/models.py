@@ -1,3 +1,4 @@
+
 class User():
     def __init__(self, username, email, phone, display_name, github_oauth_token):
         self.username = username
@@ -31,14 +32,16 @@ class Task():
         }
 
 class TodoList():
-    def __init__(self, tasks_ids, id, user_id):
+    def __init__(self, tasks_ids, name, description, user_id):
         self.tasks_ids = tasks_ids
-        self.id = id
         self.user_id = user_id
+        self.name = name
+        self.description = description
 
     def serialize(self):
         return {
             'tasks': self.tasks_ids,
-            'id': self.id,
-            'user_id': self.user_id
+            'user_id': self.user_id,
+            'name': self.name,
+            'description': self.description
         }

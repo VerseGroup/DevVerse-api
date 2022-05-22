@@ -38,28 +38,6 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
         
-    
-    def create_task_table(self):
-        self.__init__()
-        """
-        This function creates a table in the database called tasks.
-        """
-        create_task_table_query = """
-        CREATE TABLE tasks (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(500) NOT NULL,
-            completed BOOLEAN NOT NULL,
-            description VARCHAR(500) NOT NULL,
-            user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        );
-        """
-        cursor = self.conn.cursor()
-        cursor.execute(create_task_table_query)
-        self.conn.commit()
-        cursor.close()
-        self.conn.close()
-        
     def create_todo_table(self):
         self.__init__()
         """
@@ -163,18 +141,18 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
 
-    def update_task(self, task: Task):
+    def update_task(self, task: Task, task_id):
         self.__init__()
         """
         This function updates a task in the database.
         """
         update_task_query = """
         UPDATE tasks
-        SET name = %s, completed = %s, description = %s, user_id = %s
+        SET name = %s, completed = %s, description = %s, user_id = %s, todo_list_id = %s,
         WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.id,))
+        cursor.execute(update_task_query, (task.name, task.completed, task.description, task.user_id, task.todo_list_id, task_id,))
         self.conn.commit()
         cursor.close()
         self.conn.close()
@@ -268,7 +246,7 @@ class Backend_Interface:
         tasks = cursor.fetchall()
         cursor.close()
         self.conn.close()
-        return [{"name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
+        return [{"id": task[0], "name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
 
     def fetch_user_by_username(self, username: str):
         self.__init__()

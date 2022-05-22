@@ -9,7 +9,7 @@ def parse_check_run(json):
         time = json['check_run']['completed_at']
         url = json['check_run']['url']
     except Exception as e:
-        return None
+        return f"Error {str(e)}"
 
     if status != 'completed':
         return None
@@ -28,6 +28,30 @@ def parse_push(json):
     except Exception as e:
         return None
 
-    message = f"Your code (by {sender}) has been pushed to {repo}!\n\nCommit: {commit_message}\n\n More information: {commit_url} \n\n Time: {commit_time}"
+    message = f"Your code (by {sender}) has been pushed to {repo}!\n\nCommit: {commit_message}\n\n More information: {commit_url}\n\nTime: {commit_time}"
 
     return message
+
+def parse_issue(json):
+    try:
+        action = json['action']
+        if not (action == 'opened' or action == 'closed' or action == 'reopened' or action == 'edited'): 
+            return f"Action was wrong: {action}"
+        repo = json['repository']['name']
+        sender = json['sender']['login']
+        issue_title = json['issue']['title']
+        issue_url = json['issue']['url']
+        issue_time = json['issue']['created_at']
+
+        assignees = []
+        for assignee in json['issue']['assignees']:
+            assignees.append(assignee['login'])
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+    message = f"An issue has been {action} (by {sender}) has been assigned to {assignees} in {repo}!\n\nIssue: {issue_title}\n\n More information: {issue_url}\n\nTime: {issue_time}"
+
+    return message
+
+        
+

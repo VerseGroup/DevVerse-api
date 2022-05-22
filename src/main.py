@@ -11,7 +11,7 @@ import os
 from src.relay.relay import relay_
 from src.phone_numbers import NUMBERS
 from src.twilio_client import sendMessage
-from src.parse_webhook import parse_check_run, parse_push
+from src.parse_webhook import *
 
 #postgres server
 from src.postgres.models import User, Task, TodoList, Idea
@@ -65,10 +65,11 @@ async def webhook(request: Request):
     
     if 'check_run' in body_data:
         body = parse_check_run(body_data)
-        for number in NUMBERS:
-            sendMessage(body, number)
     if 'head_commit' in body_data:
         body = parse_push(body_data)
+    if 'issue' in body_data:
+        body = parse_issue(body_data)
+
     else:
         body = None
 
@@ -160,19 +161,6 @@ async def addTask(request: AddTaskRequest):
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
 
-@app.post("/addTodoList", status_code=200)
-async def addTodoList(request: AddTodoListRequest):
-    try:
-        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
-        if type(user_id) is not int:
-            raise Exception("USER_ID WRONG TPYE YOU BUM in todolist")
-
-        todo_list = TodoList([], request.todo_list_name, request.todo_list_description, user_id)
-        interface.create_todo_list(todo_list)
-        return {"message": "success"}
-    except Exception as e:
-        return {"message": "error", "exception" : str(e)}
-
 @app.post("/getTasks", status_code=200)
 async def getTasks(request: GetTasksRequest):
     try:
@@ -181,16 +169,6 @@ async def getTasks(request: GetTasksRequest):
         return {"tasks": tasks}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
-
-@app.post("/getTodoLists", status_code=200)
-async def getTodoLists(request: GetTodoListsRequest):
-    try:
-        #oauth_token
-        todo_lists = interface.fetch_todo_lists_by_oauth(request.oauth_token)
-        return {"todo_lists": todo_lists}
-    except Exception as e:
-        return {"message": "error", "exception" : str(e)}
-
 
 @app.post("/addWebhook", status_code=200)
 async def addWebhook(request: AddWebhookRequest):
@@ -210,7 +188,7 @@ async def addWebhook(request: AddWebhookRequest):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\", \"check_run\"],\"config\":{\"url\":\"https://devverse-server.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
+    data = "{\"name\":\"web\",\"active\":true,\"events\":[\"push\",\"pull_request\",\"check_run\",\"issues\"],\"config\":{\"url\":\"https://devverse-server.herokuapp.com/webhook\",\"content_type\":\"json\",\"insecure_ssl\":\"0\"}}"
 
     response = requests.post(URL, data=data, headers=headers)
 

@@ -24,6 +24,6 @@ def sendMessage(body, number):
 
 if __name__ == "__main__":
     for number in NUMBERS:
-        sendMessage("test", number)
+        sendMessage("KANYE WEST SAYS HELLO", number)
 
     

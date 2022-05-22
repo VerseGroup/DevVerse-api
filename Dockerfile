@@ -16,6 +16,6 @@ RUN chmod +x /app/run.sh
 
 # RUN chmod +x /app/scripts/*.sh
 
-COPY ./src /app/
+COPY ./src /app/src
 
 CMD ["sh", "./run.sh"]

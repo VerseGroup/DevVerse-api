@@ -32,3 +32,9 @@ class GetTasksRequest(BaseModel):
 
 class GetTodoListsRequest(BaseModel):
     oauth_token: str
+
+class AddTodoListRequest(BaseModel):
+    todo_list_name: str
+    todo_list_description: str
+    oauth_token: str
+

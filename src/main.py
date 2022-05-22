@@ -86,7 +86,6 @@ async def addUser(request: AddUserRequest):
     }
 
     r = requests.get("https://api.github.com/user", headers=headers)
-
     data_dict = r.json()
 
 

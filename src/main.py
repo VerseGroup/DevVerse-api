@@ -191,6 +191,10 @@ async def getTodoLists(request: GetTodoListsRequest):
 async def addWebhook(request: AddWebhookRequest):
     repo = request.repo
     user = interface.fetch_user_by_oauth(request.oauth_token)
+    
+    if user is None:
+        return {"message": "user does not exist"}
+
     username = user[1]
 
     URL = f"https://api.github.com/repos/{username}/{repo}/hooks"

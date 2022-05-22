@@ -5,7 +5,10 @@ import sys
 
 # add local path to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from phone_numbers import NUMBERS
+try:
+    from phone_numbers import NUMBERS
+except:
+    NUMBERS = []
 
 PHONE_NUMBER = "+18044947762"
 APP_SID= "MG190f52ced38f400b2ee059f72dacdff6"

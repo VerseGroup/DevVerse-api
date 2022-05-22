@@ -4,7 +4,6 @@ import requests
 
 def relay(relay_request):
     url = get_url(relay_request.endpoint)
-    data = relay_request.data
     method = relay_request.method
 
     header = {

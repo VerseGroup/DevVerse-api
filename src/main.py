@@ -71,11 +71,13 @@ async def webhook(request: Request):
         body = None
 
     if body is not None:        
+        
         if phone is None:
             for number in NUMBERS:
                 sendMessage(body, phone)
         else:
             sendMessage(body, phone)
+    
     else:
         if do_all_texts:
             for number in NUMBERS:

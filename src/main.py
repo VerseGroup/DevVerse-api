@@ -216,6 +216,10 @@ async def viewIdeas(request: ViewIdeasRequest):
         #user id from oauth
         user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
         ideas = interface.fetch_ideas_by_user_id(user_id)
+
+        ideas = [{"id": x[0], "name": x[1], "description": x[2], "user_id": x[3], "completed": x[4]} for x in ideas]
+
+
         return ideas
     except Exception as e:
         return {"message": "error", "exception" : str(e)}

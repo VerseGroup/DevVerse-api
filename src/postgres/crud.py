@@ -114,7 +114,7 @@ class Backend_Interface:
             VALUES (%s, %s);
             """
             cursor = self.conn.cursor()
-            cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id,))
+            cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id))
             self.conn.commit()
             cursor.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -170,7 +170,7 @@ class Backend_Interface:
         SELECT * FROM users WHERE github_oauth_token = %s LIMIT 1;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_user_by_oauth_query, (oauth_token,))
+        cursor.execute(fetch_user_by_oauth_query, (oauth_token))
         user = cursor.fetchone()
         cursor.close()
 
@@ -187,7 +187,7 @@ class Backend_Interface:
         SELECT * FROM todos WHERE user_id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_todo_list_by_user_id_query, (user_id,))
+        cursor.execute(fetch_todo_list_by_user_id_query, (user_id))
         todo_list = cursor.fetchone()
         cursor.close()
         if todo_list == None:

@@ -2,6 +2,7 @@
 from fastapi import FastAPI, Request
 from urllib import request
 from src.base_models import *
+import requests
 import uuid
 import json
 import os
@@ -76,10 +77,39 @@ async def webhook(request: Request):
     for number in NUMBERS:
         sendMessage(f"{repo} has been updated!", number)
 
-@app.post("/addUser", status_code=200)
-async def addUser(request: AddUserRequest):
-    # add user to database
-    user = User(request.username, request.email, request.password, request.phone, request.display_name, request.github_oauth_token)
-    interface.create_user(user)
-    return {"message": "user added"}
 
+# create sign up 
+@app.post("/addUser", status_code=200)
+async def addUser(Oauth_Token: str, phone_number: str):
+    # add user to database
+
+    # if oauth exists return user coresponding to oauth.
+    headers = {
+        "Authorization": f"token {Oauth_Token}",
+    }
+
+    r = requests.get("https://api.github.com/user", headers=headers)
+
+    data_dict = r.content.decode("utf-8")
+
+
+    username = data_dict['login']
+    email = data_dict['email']
+    display_name = data_dict['name']
+    github_oauth_token = data_dict['id']
+
+    user = User(username, email, phone_number, display_name, github_oauth_token)
+    interface.create_user(user)
+    return user.serialize()
+
+
+# sign in 
+@app.post("/signIn", status_code=200)
+async def signIn(Oauth_Token: str):
+    # if oauth exists return user coresponding to oauth.
+
+    user = interface.fetch_user_by_oauth(Oauth_Token)
+    if user is None:
+        return {"message": "user does not exist"}
+    else:
+        return User(*user).serialize()

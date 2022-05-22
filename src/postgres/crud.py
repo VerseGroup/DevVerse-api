@@ -1,4 +1,4 @@
-from models import *
+from src.postgres.models import *
 from dotenv import load_dotenv
 import psycopg2
 import os

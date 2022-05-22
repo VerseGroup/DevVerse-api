@@ -55,17 +55,12 @@ async def scrape_(request: OauthPostRequest):
 @app.post("/webhook", status_code=200)
 async def webhook(request: Request):
     
-    request = await request.body()
-
-    for number in NUMBERS:
-        sendMessage(request.decode("utf-8"), number)
-
-    body_data = json.load(request.decode("utf-8"))
+    body_data = await request.json()
 
     # univeral data
     repo = body_data['repository']['name']
     
-    if 'check_suite' in body_data:
+    if body_data.has_key('check_run'):
         body = parse_check_run(body_data)
     else:
         body = None
@@ -73,10 +68,6 @@ async def webhook(request: Request):
     if body is not None:        
         for number in NUMBERS:
             sendMessage(body, number)
-
-    for number in NUMBERS:
-        sendMessage(f"{repo} has been updated!", number)
-
 
 # create sign up 
 @app.post("/addUser", status_code=200)

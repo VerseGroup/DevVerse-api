@@ -36,11 +36,16 @@ async def ping():
 
 @app.post("/relay", status_code=200)
 async def _relay(request: RelayRequest):
+
+    return {"message": [request.endpoint, request.method, request.oauth_token]}
+    
+    '''
     try:
         response = relay(request.endpoint, request.method, request.oauth_token)
         return {"message": "success", "response": response}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
+    '''
 
  
 # post github data (testing)

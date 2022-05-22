@@ -105,7 +105,7 @@ class Backend_Interface:
             user_id = cursor.fetchone()
             cursor.close()
             self.conn.close()
-            return user_id
+            return user_id[0]
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 

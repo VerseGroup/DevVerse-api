@@ -69,10 +69,6 @@ async def webhook(request: Request):
         for number in NUMBERS:
             sendMessage(body, number)
 
-    for number in NUMBERS:
-        sendMessage(f"{repo} has been updated!", number)
-
-
 # create sign up 
 @app.post("/addUser", status_code=200)
 async def addUser(Oauth_Token: str, phone_number: str):

@@ -16,3 +16,5 @@ class AddUserRequest(BaseModel):
     oauth_token: str
     phone_number: str
 
+class LoginRequest(BaseModel):
+    oauth_token: str

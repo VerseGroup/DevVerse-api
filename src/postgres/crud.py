@@ -1,7 +1,10 @@
+from typing import Dict
 from src.postgres.models import *
 from dotenv import load_dotenv
 import psycopg2
 import os
+
+from test_fuctions import Oauth
 
 
 
@@ -78,10 +81,10 @@ class Backend_Interface:
         try:
             insert_user_query = """
             INSERT INTO users (username, email, phone, display_name, github_oauth_token)
-            VALUES (%s, %s, %s, %s, %s));
+            VALUES (%s, %s, %s, %s, %s);
             """
             cursor = self.conn.cursor()
-            cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token,))
+            cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token))
             self.conn.commit()
             cursor.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -119,7 +122,7 @@ class Backend_Interface:
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
-    def update_user(self, user: User):
+    def update_user(self, user: User, id: int):
         """
         This function updates a user in the database.
         """
@@ -129,7 +132,7 @@ class Backend_Interface:
         WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token, user.id,))
+        cursor.execute(update_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token, id,))
         self.conn.commit()
         cursor.close()
 
@@ -157,11 +160,11 @@ class Backend_Interface:
         WHERE user_id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.id,))
+        cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.id))
         self.conn.commit()
         cursor.close()
 
-    def fetch_user_by_oauth(self, username: str):
+    def fetch_user_by_oauth(self, oauth_token: str):
         """
         This function fetches a user by oauth token.
         """
@@ -169,9 +172,13 @@ class Backend_Interface:
         SELECT * FROM users WHERE github_oauth_token = %s LIMIT 1;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_user_by_oauth_query, (username,))
+        cursor.execute(fetch_user_by_oauth_query, (oauth_token,))
         user = cursor.fetchone()
         cursor.close()
+
+        # if user exists return user esle return None
+        if type(user) == Dict:
+            return None
         return user[0]
 
     def fetch_user_id_by_username(self, username: str):

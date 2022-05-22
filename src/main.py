@@ -102,10 +102,10 @@ async def addUser(request: AddUserRequest):
 
 # sign in 
 @app.post("/signIn", status_code=200)
-async def signIn(Oauth_Token: str):
+async def signIn(request: LoginRequest):
     # if oauth exists return user coresponding to oauth.
 
-    user = interface.fetch_user_by_oauth(Oauth_Token)
+    user = interface.fetch_user_by_oauth(request.oauth_token)
     if user is None:
         return {"message": "user does not exist"}
     else:

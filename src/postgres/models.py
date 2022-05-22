@@ -3,7 +3,7 @@ class User():
         self.username = username
         self.email = email
         self.phone = phone
-        self.display_name = display_name
+        self.name = display_name
         self.github_oauth_token = github_oauth_token
 
     def serialize(self):
@@ -11,7 +11,7 @@ class User():
             'username': self.username,
             'email': self.email,
             'phone': self.phone,
-            'display_name': self.display_name,
+            'display_name': self.name,
             'github_oauth_token': self.github_oauth_token
         }
 

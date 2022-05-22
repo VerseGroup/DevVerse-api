@@ -28,7 +28,7 @@ class Backend_Interface:
             username VARCHAR(500) NOT NULL,
             email VARCHAR(500) NOT NULL,
             phone VARCHAR(500) NOT NULL,
-            display_name VARCHAR(500) NOT NULL,
+            name VARCHAR(500) NOT NULL,
             github_oauth_token VARCHAR(500) NOT NULL
         );
         """
@@ -79,11 +79,11 @@ class Backend_Interface:
     def create_user(self, user: User):
         try:
             insert_user_query = """
-            INSERT INTO users (username, email, phone, display_name, github_oauth_token)
+            INSERT INTO users (username, email, phone, name, github_oauth_token)
             VALUES (%s, %s, %s, %s, %s);
             """
             cursor = self.conn.cursor()
-            cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token))
+            cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.name, user.github_oauth_token))
             self.conn.commit()
             cursor.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -127,11 +127,11 @@ class Backend_Interface:
         """
         update_user_query = """
         UPDATE users
-        SET username = %s, email = %s, phone = %s, display_name = %s, github_oauth_token = %s
+        SET username = %s, email = %s, phone = %s, name = %s, github_oauth_token = %s
         WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_user_query, (user.username, user.email, user.phone, user.display_name, user.github_oauth_token, id,))
+        cursor.execute(update_user_query, (user.username, user.email, user.phone, user.name, user.github_oauth_token, id,))
         self.conn.commit()
         cursor.close()
 
@@ -179,21 +179,6 @@ class Backend_Interface:
         if user == None:
             return None
         return user[0]
-
-    def fetch_user_id_by_username(self, username: str):
-        """
-        This function fetches a user id by username from the database.
-        """
-        fetch_user_id_by_username_query = """
-        SELECT id FROM users WHERE username = %s LIMIT 1;
-        """
-        cursor = self.conn.cursor()
-        cursor.execute(fetch_user_id_by_username_query, (username,))
-        user_id = cursor.fetchone()
-        cursor.close()
-        if user_id == None:
-            return None
-        return user_id[0]
 
     def fetch_todo_list_by_user_id(self, user_id: int):
         """

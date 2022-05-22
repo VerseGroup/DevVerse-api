@@ -86,15 +86,16 @@ async def addUser(request: AddUserRequest):
     }
 
     r = requests.get("https://api.github.com/user", headers=headers)
+    
     data_dict = r.json()
 
 
     username = data_dict['login']
     email = data_dict['email']
-    display_name = data_dict['name']
+    name = data_dict['name']
     
 
-    user = User(username, email, request.phone_number, display_name, request.oauth_token)
+    user = User(username, email, request.phone_number, name, request.oauth_token)
     interface.create_user(user)
     return user.serialize()
 
@@ -108,7 +109,15 @@ async def signIn(request: LoginRequest):
     if user is None:
         return {"message": "user does not exist"}
     else:
-        return User(*user).serialize()
+        
+        id = user[0]
+        username = user[1]
+        email = user[2]
+        phone = user[3]
+        name = user[4]
+        github_oauth_token = user[5]
+
+        return {"id": id, "username": username, "email": email, "phone": phone, "name": name, "github_oauth_token": github_oauth_token}
 
 @app.get("/changetextsettings", status_code=200)
 async def changeTextSettings():

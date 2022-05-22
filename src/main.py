@@ -104,14 +104,10 @@ async def addUser(request: AddUserRequest):
     name = data_dict['name']
     
     user = User(username, email, request.phone_number, name, request.oauth_token)
+
     try:
-        response = interface.create_user(user)
-        if response is None:
-            user = user.serialize()
-            user['id'] = response
-            return user
-        else:
-            return {"message": "error", "exception" : str(response)}
+        id = interface.create_user(user)
+        return {"id": id, "username": username, "email": email, "phone": request.phone_number, "name": name, "github_oauth_token": request.oauth_token}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
 

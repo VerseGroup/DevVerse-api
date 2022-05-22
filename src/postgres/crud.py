@@ -268,7 +268,7 @@ class Backend_Interface:
         tasks = cursor.fetchall()
         cursor.close()
         self.conn.close()
-        return [{"name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
+        return [{"id": task[0], "name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
 
     def fetch_user_by_username(self, username: str):
         self.__init__()

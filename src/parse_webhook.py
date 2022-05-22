@@ -7,7 +7,7 @@ def parse_check_run(json):
         status = json['check_run']['status']
         output = json['check_run']['output']['title']
         time = json['check_run']['completed_at']
-        url = json['check_run']['html_url']
+        url = json['check_run']['url']
     except Exception as e:
         return None
 
@@ -23,7 +23,7 @@ def parse_push(json):
         repo = json['repository']['name']
         sender = json['sender']['login']
         commit_message = json['head_commit']['message']
-        commit_url = json['head_commit']['html_url']
+        commit_url = json['head_commit']['url']
         commit_time = json['head_commit']['timestamp']
     except Exception as e:
         return None

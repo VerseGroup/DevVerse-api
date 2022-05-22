@@ -145,12 +145,25 @@ async def changeTextSettings():
 @app.post("/addTask", status_code=200)
 async def addTask(request: AddTaskRequest):
     try:
-        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)[0]
+        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
         if type(user_id) is not int:
-            raise Exception("USER_ID WRONG TPYE YOU BUM")
+            raise Exception("USER_ID WRONG TPYE YOU BUM in addTask")
 
         task = Task(request.task_name, False, request.task_description, user_id)
         interface.create_task(task)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": "error", "exception" : str(e)}
+
+@app.post("/addTodoList", status_code=200)
+async def addTodoList(request: AddTodoListRequest):
+    try:
+        user_id = interface.fetch_user_id_by_oauth(request.oauth_token)
+        if type(user_id) is not int:
+            raise Exception("USER_ID WRONG TPYE YOU BUM in todolist")
+
+        todo_list = TodoList([], request.todo_list_name, request.todo_list_description, user_id)
+        interface.create_todo_list(todo_list)
         return {"message": "success"}
     except Exception as e:
         return {"message": "error", "exception" : str(e)}
@@ -174,10 +187,6 @@ async def getTodoLists(request: GetTodoListsRequest):
         return {"message": "error", "exception" : str(e)}
 
 
-
-#task_name: str
-#task_description: str
-#oauth_token: str
 @app.post("/addWebhook", status_code=200)
 async def addWebhook(request: AddWebhookRequest):
     repo = request.repo

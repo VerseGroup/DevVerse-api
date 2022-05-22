@@ -28,3 +28,4 @@ def test_add_user():
     print(r.content.decode("utf-8"))
 
 test_add_user()
+test_sign_in()

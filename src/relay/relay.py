@@ -10,12 +10,11 @@ def relay(relay_request):
     header = {
         "Authorization": f"token {relay_request.oauth_token}",
     }
-    body = data
 
     if method == "GET":
         r = requests.get(url, headers=header)
     elif method == "POST":
-        r = requests.post(url, headers=header, json=body)
+        r = requests.post(url, headers=header)
 
     return r
    

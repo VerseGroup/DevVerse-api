@@ -8,7 +8,6 @@ class OauthPostRequest(BaseModel):
 
 class RelayRequest(BaseModel):
     endpoint: str
-    data: str
     method: str
     oauth_token: str
 

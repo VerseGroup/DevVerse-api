@@ -25,6 +25,6 @@ def parse_push(json):
     except Exception as e:
         return str(e)
 
-    message = f"Your code (by {sender}) has been pushed to {repo}!\n\n Commit: {commit_message}\n\n More information: {commit_url} \n Time: {commit_time}"
+    message = f"Your code (by {sender}) has been pushed to {repo}!\n\n Commit: {commit_message}\n\n More information: {commit_url} \n\n Time: {commit_time}"
 
     return message

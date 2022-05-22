@@ -24,3 +24,6 @@ class AddTaskRequest(BaseModel):
     task_description: str
     oauth_token: str
     
+class AddWebhookRequest(BaseModel):
+    oauth_token: str
+    repo: str

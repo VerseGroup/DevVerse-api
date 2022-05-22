@@ -18,6 +18,7 @@ class Backend_Interface:
             return None
 
     def create_user_table(self):
+        self.__init__()
         """
         This function creates a table in the database called users.
         """
@@ -35,9 +36,12 @@ class Backend_Interface:
         cursor.execute(create_user_table_query)
         self.conn.commit()
         cursor.close()
+        self.conn.close()
         
     
     def create_task_table(self):
+        self.__init__()
+        self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         """
         This function creates a table in the database called tasks.
         """
@@ -55,9 +59,10 @@ class Backend_Interface:
         cursor.execute(create_task_table_query)
         self.conn.commit()
         cursor.close()
-        
+        self.conn.close()
         
     def create_todo_table(self):
+        self.__init__()
         """
         This function creates a table in the database called todos.
         """
@@ -73,10 +78,12 @@ class Backend_Interface:
         cursor.execute(create_todo_table_query)
         self.conn.commit()
         cursor.close()
+        self.conn.close()
         
 
     def create_user(self, user: User):
         try:
+            self.__init__()
             insert_user_query = """
             INSERT INTO users (username, email, phone, name, github_oauth_token)
             VALUES (%s, %s, %s, %s, %s);
@@ -85,11 +92,13 @@ class Backend_Interface:
             cursor.execute(insert_user_query, (user.username, user.email, user.phone, user.name, user.github_oauth_token))
             self.conn.commit()
             cursor.close()
+            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
     def create_task(self, task: Task):
         try:
+            self.__init__()
             """
             This function creates a task in the database.
             """
@@ -101,11 +110,13 @@ class Backend_Interface:
             cursor.execute(create_task_query, (task.name, task.completed, task.description, task.user_id,))
             self.conn.commit()
             cursor.close()
+            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 
     def create_todo_list(self, todo_list: TodoList):
         try:
+            self.__init__()
             """
             This function creates a todo list in the database.
             """
@@ -117,6 +128,7 @@ class Backend_Interface:
             cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id))
             self.conn.commit()
             cursor.close()
+            self.conn.close()
         except (Exception, psycopg2.DatabaseError) as error:
             return error
 

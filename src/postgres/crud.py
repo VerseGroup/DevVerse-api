@@ -230,4 +230,21 @@ class Backend_Interface:
         cursor.close()
         self.conn.close()
         return [{"name": task[1], "completed": task[2], "description": task[3], "user_id": task[4]} for task in tasks]
+
+    def fetch_user_by_username(self, username: str):
+        self.__init__()
+        """
+        This function fetches a user by username from the database.
+        """
+        fetch_user_by_username_query = """
+        SELECT * FROM users WHERE username = %s LIMIT 1;
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(fetch_user_by_username_query, (username,))
+        user = cursor.fetchone()
+        cursor.close()
+        self.conn.close()
+        if user == None:
+            return None
+        return list(user)
         

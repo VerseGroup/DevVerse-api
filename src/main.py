@@ -87,7 +87,7 @@ async def addUser(request: AddUserRequest):
 
     r = requests.get("https://api.github.com/user", headers=headers)
 
-    data_dict = r.content.decode("utf-8")
+    data_dict = r.json()
 
 
     username = data_dict['login']

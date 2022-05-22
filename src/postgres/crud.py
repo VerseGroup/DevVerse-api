@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import psycopg2
 import os
 
-from test_fuctions import Oauth
 
 
 
@@ -177,7 +176,7 @@ class Backend_Interface:
         cursor.close()
 
         # if user exists return user esle return None
-        if type(user) == Dict:
+        if user == None:
             return None
         return user[0]
 
@@ -192,6 +191,8 @@ class Backend_Interface:
         cursor.execute(fetch_user_id_by_username_query, (username,))
         user_id = cursor.fetchone()
         cursor.close()
+        if user_id == None:
+            return None
         return user_id[0]
 
     def fetch_todo_list_by_user_id(self, user_id: int):
@@ -205,6 +206,8 @@ class Backend_Interface:
         cursor.execute(fetch_todo_list_by_user_id_query, (user_id,))
         todo_list = cursor.fetchone()
         cursor.close()
+        if todo_list == None:
+            return None
         return todo_list[0]
 
     def fetch_task_by_todo_list_id(self, todo_list_ids: list):

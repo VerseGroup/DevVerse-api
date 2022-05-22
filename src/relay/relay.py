@@ -1,18 +1,23 @@
-# imports
-import src.base_models as base_models
-
 # utils
 from src.relay.utils import get_url
+import requests
 
 def relay(relay_request):
     url = get_url(relay_request.endpoint)
     data = relay_request.data
     method = relay_request.method
 
-    if method == "GET":
-        resp = base_models.get(url, json=data)
-    elif method == "POST":
-        resp = base_models.post(url, json=data)
+    header = {
+        "Authorization": f"token {relay_request.oauth_token}",
+    }
+    body = data
 
-    return resp.content.decode("utf-8")
+    if method == "GET":
+        r = requests.get(url, headers=header)
+    elif method == "POST":
+        r = requests.post(url, headers=header, json=body)
+
+    return r
+   
+
 

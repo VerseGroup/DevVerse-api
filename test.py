@@ -1,13 +1,24 @@
-import src.base_models
+import requests
+import dotenv
+import os
+
+dotenv.load_dotenv()
 
 
-site_session = base_models.Session()
-url = "https://github.com/login/oauth/authorize"
-data = {
-    "client_id": "0dbbdc9a9550b94c98c2"
+token = os.getenv('GITHUB_TOKEN')
+
+headers = {
+    "Authorization": f"token {token}",
 }
-resp = site_session.get(url, json=data)
 
-print(resp.content.decode("utf-8"))
+r = requests.get("https://api.github.com/user", headers=headers)
 
+data_dict = r.content.decode("utf-8")
 
+# data = request.username, request.email, request.password, request.phone, request.display_name, request.github_oauth_token
+
+username = data_dict['login']
+email = data_dict['email']
+phone = "phone"
+display_name = data_dict['name']
+github_oauth_token = data_dict['id']

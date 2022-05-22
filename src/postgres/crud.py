@@ -1,4 +1,3 @@
-from typing import Dict
 from src.postgres.models import *
 from dotenv import load_dotenv
 import psycopg2

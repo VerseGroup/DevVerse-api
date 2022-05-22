@@ -69,6 +69,8 @@ class Backend_Interface:
         CREATE TABLE todos (
             id SERIAL PRIMARY KEY,
             tasks_ids INTEGER [] NOT NULL,
+            name VARCHAR(500) NOT NULL,
+            description VARCHAR(500) NOT NULL,
             user_id INTEGER NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users (id)
         );
@@ -134,11 +136,11 @@ class Backend_Interface:
             This function creates a todo list in the database.
             """
             create_todo_list_query = """
-            INSERT INTO todos (tasks_ids, user_id)
-            VALUES (%s, %s);
+            INSERT INTO todos (tasks_ids, user_id, name, description)
+            VALUES (%s, %s, %s, %s);
             """
             cursor = self.conn.cursor()
-            cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id))
+            cursor.execute(create_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.name, todo_list.description,))
             self.conn.commit()
             cursor.close()
             self.conn.close()
@@ -184,11 +186,11 @@ class Backend_Interface:
         """
         update_todo_list_query = """
         UPDATE todos
-        SET tasks_ids = %s
-        WHERE user_id = %s;
+        SET tasks_ids = %s, user_id = %s, name = %s, description = %s
+        WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.id))
+        cursor.execute(update_todo_list_query, (todo_list.tasks_ids, todo_list.user_id, todo_list.name, todo_list.description, todo_list.id,))
         self.conn.commit()
         cursor.close()
         self.conn.close()
@@ -229,15 +231,20 @@ class Backend_Interface:
         
 
     def fetch_todo_lists_by_oauth(self, oauth_token: str):
+        # convert oauth token to user id
+        self.__init__()
+        user_id = self.fetch_user_by_oauth(oauth_token)
+
+        # fetch todo lists by user id
         self.__init__()
         """
         This function fetches a todo list by oauth from the database.
         """
         fetch_todo_list_by_user_id_query = """
-        SELECT * FROM todos WHERE github_oauth_token = %s;
+        SELECT * FROM todos WHERE user_id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_todo_list_by_user_id_query, (oauth_token,))
+        cursor.execute(fetch_todo_list_by_user_id_query, (user_id,))
         todo_list = cursor.fetchall()
         cursor.close()
         self.conn.close()

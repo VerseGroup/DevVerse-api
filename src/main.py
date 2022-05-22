@@ -140,7 +140,6 @@ async def changeTextSettings():
 @app.post("/addWebhook", status_code=200)
 async def addWebhook(request: AddWebhookRequest):
     repo = request.repo
-    oauth_token = request.oauth_token
     user = interface.fetch_user_by_oauth(request.oauth_token)
     username = user[1]
 

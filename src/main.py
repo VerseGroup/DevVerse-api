@@ -55,12 +55,7 @@ async def scrape_(request: OauthPostRequest):
 @app.post("/webhook", status_code=200)
 async def webhook(request: Request):
     
-    request = await request.body()
-
-    for number in NUMBERS:
-        sendMessage(request.decode("utf-8"), number)
-
-    body_data = json.load(request.decode("utf-8"))
+    body_data = await request.json()
 
     # univeral data
     repo = body_data['repository']['name']

@@ -21,6 +21,7 @@ from src.postgres.crud import Backend_Interface
 app = FastAPI()
 interface = Backend_Interface()
 
+DO_ALL_TEXTS= False
 
 ####### ROUTES [Basic] #######
 
@@ -71,12 +72,13 @@ async def webhook(request: Request):
         for number in NUMBERS:
             sendMessage(body, number)
     else:
-        for number in NUMBERS:
-            keys = []
-            for key in body_data:
-                keys.append(key)
-            sendMessage(f"not a relevant update: {keys}", number)
-        
+        if DO_ALL_TEXTS:
+            for number in NUMBERS:
+                keys = []
+                for key in body_data:
+                    keys.append(key)
+                sendMessage(f"not a relevant update to {repo}: {keys}", number)
+            
 # create sign up 
 @app.post("/addUser", status_code=200)
 async def addUser(Oauth_Token: str, phone_number: str):
@@ -112,3 +114,8 @@ async def signIn(Oauth_Token: str):
         return {"message": "user does not exist"}
     else:
         return User(*user).serialize()
+
+@app.get("/changetextsettings", status_code=200)
+async def changeTextSettings():
+    DO_ALL_TEXTS = not DO_ALL_TEXTS
+    return {"message": f"text settings changed to {DO_ALL_TEXTS}"}

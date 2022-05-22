@@ -73,8 +73,9 @@ async def webhook(request: Request):
     if body is not None:        
         
         if phone is None:
+            
             for number in NUMBERS:
-                sendMessage(body, phone)
+                sendMessage(body, number)
         
         else:
             sendMessage(body, phone)

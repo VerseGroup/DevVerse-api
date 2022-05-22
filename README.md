@@ -18,3 +18,5 @@ Connections:
 - Github API (central to app purpose)
 - Twilio API (for notifications)
 
+The app was designed for PantherHacks 2022. The code is open-source and documentation is available on the Github page (versegroup.github.io/devverse/).
+

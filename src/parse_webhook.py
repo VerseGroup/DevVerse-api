@@ -35,8 +35,8 @@ def parse_push(json):
 def parse_issue(json):
     try:
         action = json['action']
-        if action != 'opened' or action != 'closed' or action != 'reopened' or action != 'edited': 
-            return None
+        if not (action == 'opened' or action == 'closed' or action == 'reopened' or action == 'edited'): 
+            return f"Action was wrong: {action}"
         repo = json['repository']['name']
         sender = json['sender']['login']
         issue_title = json['issue']['title']
@@ -49,7 +49,9 @@ def parse_issue(json):
     except Exception as e:
         return f"Error: {str(e)}"
 
-    message = f"An issue has been posted (by {sender}) has been assigned to {assignees} in {repo}!\n\nIssue: {issue_title}\n\n More information: {issue_url}\n\nTime: {issue_time}"
+    message = f"An issue has been {action} (by {sender}) has been assigned to {assignees} in {repo}!\n\nIssue: {issue_title}\n\n More information: {issue_url}\n\nTime: {issue_time}"
+
+    return message
 
         
 

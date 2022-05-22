@@ -255,16 +255,16 @@ class Backend_Interface:
         todo_list = [{"id": x[0], "task_ids": x[1], "user_id": x[2]} for x in todo_list]
         return todo_list 
 
-    def fetch_task_by_todo_list_id(self, todo_list_ids: list):
+    def fetch_tasks_by_todo_list_id(self, todo_list_id: int):
         self.__init__()
         """
         This function fetches a task by todo list id from the database.
         """
-        fetch_task_by_todo_list_id_query = f"""
-        SELECT * FROM tasks WHERE id = %s {"OR id = %s " * (len(todo_list_ids) - 1)};
+        fetch_task_by_todo_list_id_query = """
+        SELECT * FROM tasks WHERE id = %s;
         """
         cursor = self.conn.cursor()
-        cursor.execute(fetch_task_by_todo_list_id_query, tuple(todo_list_ids))
+        cursor.execute(fetch_task_by_todo_list_id_query, (todo_list_id,))
         tasks = cursor.fetchall()
         cursor.close()
         self.conn.close()
